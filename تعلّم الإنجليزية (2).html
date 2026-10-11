@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>تعلّم الإنجليزية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F7FA;--card:#fff;--ink:#10243A;--mute:#5B6E80;--teal:#0B7285;--sun:#FFC53D;--line:#D6E2EA;--ok:#1F9D63;--bad:#D6453D;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1824;--card:#14263A;--ink:#EAF2F8;--mute:#9FB3C4;--teal:#3CC0D4;--line:#25405A}}
+:root[data-theme="dark"]{--bg:#0C1824;--card:#14263A;--ink:#EAF2F8;--mute:#9FB3C4;--teal:#3CC0D4;--line:#25405A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 8px}
+h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:800;margin:0;line-height:1.25}
+.sub{color:var(--mute);margin:6px 0 18px}
+.hero{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
+.hero>div{flex:1 1 280px}
+.word{background:var(--ink);color:var(--bg);border-radius:20px;padding:22px;display:flex;flex-direction:column;justify-content:center;min-height:170px}
+.word .en{font-size:2.6rem;font-weight:800;direction:ltr;text-align:right;color:var(--sun)}
+.word .ar{font-size:1.2rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font-size:1.8rem;color:var(--teal)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--line);margin-top:14px}
+nav button{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 18px;white-space:nowrap;font-weight:600}
+nav button[aria-selected="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+section{display:none;padding:20px 0 60px}
+section.on{display:block}
+h2{font-size:1.5rem;margin:0 0 12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chips button{background:transparent;border:1.5px solid var(--line);border-radius:10px;padding:4px 14px}
+.chips button.on{border-color:var(--sun);background:var(--sun);color:#10243A;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;min-height:112px;display:flex;flex-direction:column;justify-content:center;gap:2px;width:100%}
+.fc .en{font-size:1.3rem;font-weight:800;direction:ltr}
+.fc .ar{color:var(--mute)}
+.fc.known{border-color:var(--ok);box-shadow:inset 0 -4px 0 var(--ok)}
+.hint{color:var(--mute);font-size:.9rem;margin:-4px 0 14px}
+.phr{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:right}
+.phr .en{font-weight:800;direction:ltr;text-align:left}
+.phr .ar{color:var(--mute);font-size:.95rem}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:4px 16px}
+summary{cursor:pointer;font-weight:800;padding:8px 0}
+details p{margin:4px 0 10px}
+.ex{direction:ltr;text-align:left;background:var(--bg);border-radius:8px;padding:6px 12px;margin:4px 0;border-inline-start:4px solid var(--sun)}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.q h3{margin:0 0 14px;font-size:1.25rem}
+.q .en{direction:ltr;display:inline-block;font-weight:800;color:var(--teal)}
+.opts{display:grid;gap:10px}
+.opts button{background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;text-align:start;font-weight:600}
+.opts button.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opts button.bad{background:var(--bad);color:#fff;border-color:var(--bad)}
+.bar{height:8px;background:var(--line);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal);width:0;transition:width .3s}
+.main{background:var(--teal);color:#fff;border:0;border-radius:12px;padding:10px 24px;font-weight:800;margin-top:14px}
+.small{background:var(--sun);color:#10243A;border:0;border-radius:10px;padding:2px 12px;font-weight:600}
+.ctl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:4px 0 10px}
+.lv{display:flex;gap:6px}
+.lv button{border:1.5px solid var(--teal);background:transparent;border-radius:999px;padding:4px 18px;font-weight:800}
+.lv button.on{background:var(--teal);color:var(--bg)}
+.vc{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.9rem}
+.vc select{max-width:190px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:3px 6px;font:inherit}
+.acct{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:0 0 14px;font-size:.95rem;color:var(--mute)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:84px;height:84px;flex:none}
+.ill{font-size:2rem;line-height:1.4;margin-top:4px;letter-spacing:.12em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="brand"><svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="شعار الدب الأصفر">
+<circle cx="30" cy="38" r="16" fill="#F2A900"/><circle cx="30" cy="38" r="8" fill="#FFE08A"/>
+<circle cx="90" cy="38" r="16" fill="#F2A900"/><circle cx="90" cy="38" r="8" fill="#FFE08A"/>
+<ellipse cx="60" cy="72" rx="44" ry="40" fill="#FFC53D"/>
+<ellipse cx="60" cy="85" rx="20" ry="15" fill="#FFE9A8"/>
+<circle cx="44" cy="68" r="5" fill="#10243A"/><circle cx="76" cy="68" r="5" fill="#10243A"/>
+<ellipse cx="60" cy="78" rx="6.5" ry="4.5" fill="#10243A"/>
+<path d="M60 82v5M52 90q8 6 16 0" fill="none" stroke="#10243A" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M42 30v10q18 10 36 0V30z" fill="#1D3B5A"/>
+<path d="M60 8 100 22 60 36 20 22z" fill="#10243A"/>
+<path d="M98 23v16" stroke="#10243A" stroke-width="2.5"/><circle cx="98" cy="41" r="3.5" fill="#10243A"/>
+</svg><h1>تعلّم الإنجليزية من الصفر</h1></div>
+<p class="sub">مفردات بالصوت، جمل يومية، قواعد مبسطة، واختبارات تقيس تقدمك.</p>
+<div class="acct" id="acct" aria-live="polite">جارٍ التحقق من حسابك…</div>
+<div class="hero">
+<div class="word" aria-live="polite"><div class="en" id="dw">Hello</div><div class="ar" id="dwa">مرحباً</div><div><button class="small" id="dws">استمع</button> <button class="small" id="dwn">كلمة أخرى</button></div></div>
+<div class="stats"><div class="stat"><b id="sLearned">0</b>كلمات حفظتها</div><div class="stat"><b id="sTotal">0</b>إجمالي المفردات</div><div class="stat"><b id="sBest">0</b>أفضل نتيجة اختبار</div><div class="stat"><b id="sRuns">0</b>اختبارات أنجزتها</div></div>
+</div>
+</header>
+<div class="ctl"><div class="lv" id="lv" role="group" aria-label="المستوى"></div><div class="vc"><label>السرعة <select id="rs"><option value=".6">بطيء</option><option value=".85" selected>عادي</option><option value="1">سريع</option></select></label><button class="small" id="vt">جرّب الصوت</button></div></div>
+<nav role="tablist" id="nav">
+<button role="tab" data-t="vocab" aria-selected="true">المفردات</button>
+<button role="tab" data-t="phrases" aria-selected="false">جمل يومية</button>
+<button role="tab" data-t="grammar" aria-selected="false">القواعد</button>
+<button role="tab" data-t="quiz" aria-selected="false">اختبار</button>
+</nav>
+
+<section id="vocab" class="on">
+<h2>المفردات</h2>
+<p class="hint">اضغط على البطاقة لسماع النطق. اضغط "حفظتها" لتعليمها.</p>
+<div class="chips" id="cats"></div>
+<div class="grid" id="vgrid"></div>
+</section>
+
+<section id="phrases">
+<h2>جمل يومية</h2>
+<p class="hint">اضغط على أي جملة لسماع نطقها.</p>
+<div id="plist"></div>
+</section>
+
+<section id="grammar">
+<h2>القواعد</h2>
+<div id="glist"></div>
+</section>
+
+<section id="quiz">
+<h2>اختبار</h2>
+<div id="qbox"></div>
+</section>
+</div>
+
+<script>
+var V={
+"تحيات":[["Hello","مرحباً"],["Goodbye","وداعاً"],["Please","من فضلك"],["Thank you","شكراً"],["Sorry","آسف"],["Welcome","أهلاً بك"],["Good morning","صباح الخير"],["Good night","تصبح على خير"]],
+"أرقام":[["One","واحد"],["Two","اثنان"],["Three","ثلاثة"],["Four","أربعة"],["Five","خمسة"],["Six","ستة"],["Seven","سبعة"],["Eight","ثمانية"],["Nine","تسعة"],["Ten","عشرة"]],
+"عائلة":[["Mother","أم"],["Father","أب"],["Brother","أخ"],["Sister","أخت"],["Son","ابن"],["Daughter","ابنة"],["Grandfather","جد"],["Grandmother","جدة"],["Uncle","عم / خال"],["Friend","صديق"]],
+"طعام":[["Water","ماء"],["Bread","خبز"],["Rice","أرز"],["Chicken","دجاج"],["Apple","تفاحة"],["Milk","حليب"],["Coffee","قهوة"],["Egg","بيضة"],["Cheese","جبن"],["Dates","تمر"]],
+"سفر":[["Airport","مطار"],["Ticket","تذكرة"],["Hotel","فندق"],["Passport","جواز سفر"],["Luggage","أمتعة"],["Map","خريطة"],["Taxi","سيارة أجرة"],["Street","شارع"],["Left","يسار"],["Right","يمين"]],
+"أفعال":[["Eat","يأكل"],["Drink","يشرب"],["Go","يذهب"],["Come","يأتي"],["Read","يقرأ"],["Write","يكتب"],["Speak","يتحدث"],["Learn","يتعلم"],["Work","يعمل"],["Sleep","ينام"]]
+};
+var P=[["How are you?","كيف حالك؟"],["I'm fine, thank you.","أنا بخير، شكراً."],["What is your name?","ما اسمك؟"],["My name is Ali.","اسمي علي."],["Nice to meet you.","تشرفت بمعرفتك."],["Where are you from?","من أين أنت؟"],["I'm from Saudi Arabia.","أنا من السعودية."],["Do you speak English?","هل تتحدث الإنجليزية؟"],["I don't understand.","لا أفهم."],["Could you repeat that, please?","هل يمكنك الإعادة من فضلك؟"],["How much is this?","بكم هذا؟"],["Where is the bathroom?","أين الحمّام؟"],["I would like a coffee.","أريد قهوة."],["Can you help me?","هل تستطيع مساعدتي؟"],["See you tomorrow.","أراك غداً."]];
+var G=[
+["الفعل To be (am / is / are)","نستخدم am مع I، و is مع He/She/It، و are مع You/We/They.",["I am a student.","She is happy.","They are at home."]],
+["المضارع البسيط","نستخدمه للعادات والحقائق. نضيف s أو es للفعل مع He/She/It.",["I work every day.","He works in Jeddah.","She watches TV."]],
+["أدوات التنكير a / an","نستخدم a قبل الصوت الساكن، و an قبل الصوت المتحرك (a, e, i, o, u).",["a book","an apple","an hour"]],
+["الجمع","غالباً نضيف s. وبعض الكلمات شاذة.",["book → books","box → boxes","child → children","man → men"]],
+["النفي والسؤال بـ do / does","للنفي نستخدم don't أو doesn't، وللسؤال نبدأ بـ Do أو Does. بعدهما يرجع الفعل لشكله الأصلي.",["I don't like tea.","She doesn't work here.","Do you speak English?","Does he live here?"]],
+["الماضي البسيط","نضيف ed للأفعال المنتظمة، وهناك أفعال شاذة يجب حفظها.",["I played football.","He went home.","We ate dinner.","They saw a movie."]],
+["الفعل المساعد can","نستخدمه للقدرة. بعده الفعل بدون to.",["I can swim.","She can't drive.","Can you help me?"]]
+];
+var Q=[["She ___ a teacher.",["am","is","are"],1],["I ___ English every day.",["study","studies","studying"],0],["He ___ to school yesterday.",["go","goes","went"],2],["___ you speak Arabic?",["Do","Does","Is"],0],["I have ___ apple.",["a","an","the"],1],["The plural of child is ___.",["childs","children","childes"],1],["They ___ at home now.",["is","am","are"],2],["She ___ like coffee.",["don't","doesn't","isn't"],1],["I ___ swim very well.",["can","cans","am"],0],["We ___ dinner last night.",["eat","eats","ate"],2]];
+V["ألوان"]=[["Red","أحمر"],["Blue","أزرق"],["Green","أخضر"],["Yellow","أصفر"],["Black","أسود"],["White","أبيض"],["Orange","برتقالي"],["Brown","بني"]];
+V["أيام"]=[["Monday","الاثنين"],["Tuesday","الثلاثاء"],["Wednesday","الأربعاء"],["Thursday","الخميس"],["Friday","الجمعة"],["Saturday","السبت"],["Sunday","الأحد"],["Today","اليوم"],["Tomorrow","غداً"]];
+V["تسوق"]=[["Price","سعر"],["Cheap","رخيص"],["Expensive","غالٍ"],["Discount","خصم"],["Receipt","إيصال"],["Size","مقاس"],["Cash","نقداً"],["Store","متجر"]];
+V["صحة"]=[["Doctor","طبيب"],["Medicine","دواء"],["Headache","صداع"],["Fever","حمى"],["Pain","ألم"],["Hospital","مستشفى"],["Healthy","صحي"],["Tired","متعب"]];
+V["عمل"]=[["Meeting","اجتماع"],["Deadline","موعد نهائي"],["Salary","راتب"],["Manager","مدير"],["Report","تقرير"],["Project","مشروع"],["Experience","خبرة"],["Interview","مقابلة عمل"]];
+V["تعابير"]=[["Break the ice","كسر الجمود"],["Piece of cake","سهل جداً"],["Under the weather","متعب قليلاً"],["Once in a blue moon","نادراً جداً"],["Hit the books","يذاكر بجد"],["Call it a day","ينهي عمل اليوم"],["Break a leg","بالتوفيق"],["Spill the beans","يكشف السر"]];
+V["صفات"]=[["Reliable","يُعتمد عليه"],["Ambitious","طموح"],["Generous","كريم"],["Reluctant","متردد"],["Efficient","كفؤ"],["Essential","ضروري"],["Challenging","صعب ومحفّز"],["Sufficient","كافٍ"]];
+V["أرقام"]=V["أرقام"].concat([["Zero","صفر"],["Eleven","أحد عشر"],["Twelve","اثنا عشر"],["Thirteen","ثلاثة عشر"],["Fourteen","أربعة عشر"],["Fifteen","خمسة عشر"],["Sixteen","ستة عشر"],["Seventeen","سبعة عشر"],["Eighteen","ثمانية عشر"],["Nineteen","تسعة عشر"],["Twenty","عشرون"],["Thirty","ثلاثون"],["Forty","أربعون"],["Fifty","خمسون"],["Sixty","ستون"],["Seventy","سبعون"],["Eighty","ثمانون"],["Ninety","تسعون"],["One hundred","مئة"],["One thousand","ألف"],["One million","مليون"],["First","الأول"],["Second","الثاني"],["Third","الثالث"],["Half","نصف"],["Double","ضعف"]]);
+V["ألوان"]=V["ألوان"].concat([["Pink","وردي"],["Purple","بنفسجي"],["Gray","رمادي"],["Gold","ذهبي"],["Silver","فضي"],["Beige","بيج"],["Turquoise","فيروزي"],["Navy blue","كحلي"],["Light blue","أزرق فاتح"],["Dark green","أخضر غامق"],["Light","فاتح"],["Dark","غامق"],["Colorful","ملوّن"],["Favorite color","اللون المفضل"]]);
+V["طعام"]=V["طعام"].concat([["Meat","لحم"],["Beef","لحم بقر"],["Lamb","لحم ضأن"],["Fish","سمك"],["Shrimp","روبيان"],["Soup","شوربة"],["Salad","سلطة"],["Pasta","معكرونة"],["Pizza","بيتزا"],["Burger","برجر"],["Sandwich","ساندويتش"],["Potato","بطاطس"],["Tomato","طماطم"],["Cucumber","خيار"],["Onion","بصل"],["Carrot","جزر"],["Lemon","ليمون"],["Banana","موز"],["Orange","برتقال"],["Grapes","عنب"],["Watermelon","بطيخ"],["Strawberry","فراولة"],["Tea","شاي"],["Juice","عصير"],["Honey","عسل"],["Sugar","سكر"],["Salt","ملح"],["Pepper","فلفل"],["Oil","زيت"],["Butter","زبدة"],["Cake","كيك"],["Chocolate","شوكولاتة"],["Ice cream","آيس كريم"],["Breakfast","فطور"],["Lunch","غداء"],["Dinner","عشاء"],["Hungry","جائع"],["Thirsty","عطشان"],["Delicious","لذيذ"],["Menu","قائمة الطعام"],["Bill","الحساب"],["Fork","شوكة"],["Spoon","ملعقة"],["Knife","سكين"],["Plate","صحن"],["Cup","كوب"]]);
+function W(t){return t.split(",").map(function(x){return x.split("|")})}
+V["سفر"]=V["سفر"].concat(W("Flight|رحلة جوية,Boarding pass|بطاقة صعود,Gate|بوابة,Departure|مغادرة,Arrival|وصول,Customs|الجمارك,Visa|تأشيرة,Reservation|حجز,Single room|غرفة فردية,Check in|تسجيل الدخول,Check out|تسجيل الخروج,Tourist|سائح,Souvenir|تذكار,Train|قطار,Bus station|محطة الحافلات,Straight ahead|مباشرة,Corner|زاوية,Near|قريب,Far|بعيد,Lost|ضائع"));
+V["أفعال"]=V["أفعال"].concat(W("Buy|يشتري,Sell|يبيع,Open|يفتح,Close|يغلق,Wait|ينتظر,Start|يبدأ,Finish|ينهي,Help|يساعد,Ask|يسأل,Answer|يجيب,Think|يفكر,Know|يعرف,Understand|يفهم,Remember|يتذكر,Forget|ينسى,Give|يعطي,Take|يأخذ,Bring|يحضر,Call|يتصل,Visit|يزور,Cook|يطبخ,Clean|ينظف,Wash|يغسل,Try|يحاول,Choose|يختار"));
+V["تسوق"]=V["تسوق"].concat(W("Shopping mall|مجمع تجاري,Cashier|أمين الصندوق,Bag|كيس,Sale|تخفيضات,Refund|استرداد المبلغ,Credit card|بطاقة ائتمان,Try on|يجرّب,Fit|يناسب,Too big|كبير جداً,Too small|صغير جداً,Change|الباقي,Bargain|صفقة رابحة,Brand|ماركة,Quality|جودة"));
+V["صحة"]=V["صحة"].concat(W("Dentist|طبيب أسنان,Nurse|ممرض,Pharmacy|صيدلية,Prescription|وصفة طبية,Cough|سعال,Cold|زكام,Allergy|حساسية,Appointment|موعد,Injury|إصابة,Blood pressure|ضغط الدم,Sore throat|التهاب الحلق,Stomachache|ألم المعدة,Rest|راحة,Exercise|تمرين,Diet|حمية"));
+V["طقس"]=W("Sunny|مشمس,Cloudy|غائم,Rainy|ممطر,Windy|عاصف,Hot|حار,Cold weather|بارد,Humid|رطب,Storm|عاصفة,Snow|ثلج,Temperature|درجة الحرارة,Forecast|توقعات الطقس,Season|فصل,Summer|صيف,Winter|شتاء,Spring|ربيع,Autumn|خريف");
+V["بيت"]=W("Kitchen|مطبخ,Bedroom|غرفة نوم,Bathroom|حمام,Living room|غرفة معيشة,Door|باب,Window|نافذة,Table|طاولة,Chair|كرسي,Bed|سرير,Sofa|أريكة,Carpet|سجادة,Fridge|ثلاجة,Roof|سقف,Floor|أرضية,Garden|حديقة,Key|مفتاح");
+V["ملابس"]=W("Shirt|قميص,Trousers|بنطال,Dress|فستان,Shoes|حذاء,Socks|جوارب,Jacket|سترة,Hat|قبعة,Scarf|وشاح,Gloves|قفازات,Belt|حزام,Watch|ساعة,Glasses|نظارة,Pocket|جيب,Sleeve|كم,Uniform|زي موحد,Coat|معطف");
+V["أماكن"]=W("Bank|بنك,Post office|مكتب البريد,Police station|مركز شرطة,School|مدرسة,University|جامعة,Library|مكتبة,Mosque|مسجد,Park|حديقة عامة,Restaurant|مطعم,Supermarket|سوبرماركت,Bridge|جسر,Traffic lights|إشارة المرور,Crossroad|تقاطع,Building|مبنى,Museum|متحف,Beach|شاطئ");
+V["مشاعر"]=W("Happy|سعيد,Sad|حزين,Angry|غاضب,Afraid|خائف,Excited|متحمس,Bored|ملّان,Nervous|متوتر,Proud|فخور,Lonely|وحيد,Surprised|متفاجئ,Worried|قلق,Jealous|غيور,Confused|مرتبك,Relaxed|مرتاح,Grateful|ممتن");
+V["عمل"]=V["عمل"].concat(W("Colleague|زميل عمل,Employee|موظف,Employer|صاحب عمل,Resume|سيرة ذاتية,Promotion|ترقية,Raise|زيادة راتب,Budget|ميزانية,Contract|عقد,Negotiate|يتفاوض,Schedule|جدول,Client|عميل,Supplier|مورّد,Profit|ربح,Loss|خسارة,Invoice|فاتورة,Branch|فرع,Headquarters|المقر الرئيسي,Resign|يستقيل,Hire|يوظف,Responsibility|مسؤولية"));
+V["تعابير"]=V["تعابير"].concat(W("Cost an arm and a leg|يكلف الكثير,Hit the nail on the head|أصاب الهدف,Bite the bullet|يتحمل الأمر الصعب,On the same page|متفقون,The ball is in your court|القرار عندك,Back to square one|العودة للبداية,Get out of hand|يخرج عن السيطرة,Better late than never|أن تأتي متأخراً خير من ألا تأتي,A blessing in disguise|نعمة في ثوب نقمة,Keep an eye on|راقب,Cut corners|يتساهل في الجودة"));
+V["صفات"]=V["صفات"].concat(W("Persistent|مثابر,Cautious|حذر,Humble|متواضع,Skeptical|متشكك,Flexible|مرن,Honest|صادق,Creative|مبدع,Stubborn|عنيد,Eager|متحمس,Mature|ناضج,Thorough|دقيق وشامل,Approachable|سهل التعامل,Outstanding|متميز,Inevitable|حتمي,Reasonable|منطقي"));
+V["أكاديمي"]=W("Research|بحث,Thesis|أطروحة,Lecture|محاضرة,Scholarship|منحة دراسية,Degree|شهادة جامعية,Assignment|واجب,Analyze|يحلل,Evidence|دليل,Conclusion|خلاصة,Hypothesis|فرضية,Reference|مرجع,Curriculum|المنهج,Graduate|يتخرج,Plagiarism|انتحال,Fluent|بطلاقة,Vocabulary|مفردات");
+V["تقنية"]=W("Software|برنامج,Hardware|عتاد,Network|شبكة,Password|كلمة مرور,Download|تحميل,Upload|رفع,Update|تحديث,Device|جهاز,Database|قاعدة بيانات,Artificial intelligence|ذكاء اصطناعي,Cloud storage|تخزين سحابي,Security|أمان,Browser|متصفح,Application|تطبيق,Screen|شاشة,Wireless|لاسلكي");
+V["أفعال مركبة"]=W("Give up|يستسلم,Look after|يعتني بـ,Look for|يبحث عن,Turn on|يشغّل,Turn off|يطفئ,Find out|يكتشف,Carry on|يستمر,Put off|يؤجل,Run out of|ينفد منه,Get along with|ينسجم مع,Set up|يؤسس,Come across|يصادف,Figure out|يجد حلاً,Take off|تقلع الطائرة,Break down|يتعطل,Bring up|يربّي أو يثير موضوعاً");
+V["كلمات ربط"]=W("However|ومع ذلك,Therefore|لذلك,Moreover|علاوة على ذلك,Although|مع أن,Despite|رغم,Besides|إلى جانب,Meanwhile|في هذه الأثناء,Otherwise|وإلا,Nevertheless|مع ذلك,Furthermore|فضلاً عن ذلك,In addition|بالإضافة,As a result|نتيجة لذلك,On the other hand|من ناحية أخرى,In conclusion|في الختام");
+V["مجتمع"]=W("Government|حكومة,Economy|اقتصاد,Environment|بيئة,Population|عدد السكان,Society|مجتمع,Culture|ثقافة,Law|قانون,Citizen|مواطن,Opinion|رأي,Issue|قضية,Community|مجتمع محلي,Charity|عمل خيري,Volunteer|متطوع,Pollution|تلوث,Climate change|تغير المناخ,Development|تطور");
+var LV={"طقس":1,"بيت":1,"ملابس":1,"أماكن":1,"مشاعر":1,"أكاديمي":2,"تقنية":2,"أفعال مركبة":2,"كلمات ربط":2,"مجتمع":2,"تحيات":0,"أرقام":0,"عائلة":0,"طعام":0,"ألوان":0,"أيام":0,"سفر":1,"أفعال":1,"تسوق":1,"صحة":1,"عمل":2,"تعابير":2,"صفات":2};
+P.push(["I've been learning English for a year.","أتعلم الإنجليزية منذ سنة."],["Would you mind opening the window?","هل تمانع بفتح النافذة؟"],["If I had more time, I would travel.","لو كان عندي وقت أكثر لسافرت."],["I'm looking forward to meeting you.","أتطلع للقائك."],["Let's discuss this in detail.","دعنا نناقش هذا بالتفصيل."],["It depends on the situation.","يعتمد على الموقف."]);
+var PX={};
+function plv(i){return i in PX?PX[i]:(i<7?0:i<15?1:2)}
+function addP(l,t){t.split(";").forEach(function(x){PX[P.length]=l;P.push(x.split("|"))})}
+addP(1,"Excuse me, could you tell me the way to the airport?|لو سمحت، هل تدلني على الطريق إلى المطار؟;I'd like to book a table for two.|أريد حجز طاولة لشخصين.;Can I try this on?|هل أستطيع تجربة هذا؟;Do you have a smaller size?|هل عندكم مقاس أصغر؟;I have a reservation under the name Ahmed.|عندي حجز باسم أحمد.;What time does the flight leave?|متى تقلع الرحلة؟;I'm allergic to peanuts.|عندي حساسية من الفول السوداني.;I've lost my passport.|ضاع جواز سفري.;How long does it take to get there?|كم يستغرق الوصول إلى هناك؟;Could I have the bill, please?|هل يمكنني الحصول على الحساب؟;I feel dizzy and I have a headache.|أشعر بدوار وعندي صداع.;I need to see a doctor.|أحتاج لرؤية طبيب.;Can I pay by card?|هل أستطيع الدفع بالبطاقة؟;The weather is lovely today.|الجو جميل اليوم.");
+addP(2,"I'd appreciate it if you could send me the details.|أقدّر لو أرسلت لي التفاصيل.;Let me get back to you on that.|دعني أرد عليك بخصوص ذلك لاحقاً.;I see your point, but I'm afraid I disagree.|أفهم وجهة نظرك، لكن للأسف لا أتفق.;We need to meet the deadline no matter what.|يجب أن نلتزم بالموعد النهائي مهما حدث.;As far as I'm concerned, it's worth trying.|في رأيي، يستحق المحاولة.;I'm afraid I won't be able to attend the meeting.|أخشى أنني لن أستطيع حضور الاجتماع.;Could you elaborate on that?|هل يمكنك التوضيح أكثر؟;It's not as simple as it seems.|الأمر ليس بسيطاً كما يبدو.;Had I known, I would have helped you.|لو علمت لساعدتك.;On the whole, the project was a success.|بشكل عام، كان المشروع ناجحاً.;Please find the attached document.|تجد المستند المرفق.;I look forward to hearing from you.|أتطلع إلى الرد منكم.;Let's weigh the pros and cons.|لنوازن بين الإيجابيات والسلبيات.;That's easier said than done.|هذا أسهل قولاً من فعلاً.");
+addP(0,"Good morning! How are you today?|صباح الخير! كيف حالك اليوم؟;Good evening.|مساء الخير.;Good night, sleep well.|تصبح على خير، نم جيداً.;Thank you very much.|شكراً جزيلاً.;You're welcome.|عفواً.;Excuse me.|لو سمحت.;I'm sorry.|أنا آسف.;No problem.|لا مشكلة.;Yes, please.|نعم، من فضلك.;No, thank you.|لا، شكراً.;I don't know.|لا أعرف.;I'm hungry.|أنا جائع.;I'm thirsty.|أنا عطشان.;I'm tired.|أنا متعب.;I'm happy.|أنا سعيد.;I like pizza.|أحب البيتزا.;I love my family.|أحب عائلتي.;This is my friend.|هذا صديقي.;How old are you?|كم عمرك؟;I'm twenty years old.|عمري عشرون سنة.;What time is it?|كم الساعة؟;It's three o'clock.|الساعة الثالثة.;Where is the school?|أين المدرسة؟;Can I have some water?|هل أستطيع شرب ماء؟;Please speak slowly.|تكلم ببطء من فضلك.;What does this mean?|ماذا يعني هذا؟;How do you say this in English?|كيف تقول هذا بالإنجليزية؟;Let's go!|هيا بنا!;Have a nice day!|أتمنى لك يوماً سعيداً!;See you later.|أراك لاحقاً.");
+addP(1,"Could you speak a little slower, please?|هل يمكنك التحدث أبطأ قليلاً؟;I'm looking for a good restaurant nearby.|أبحث عن مطعم جيد قريب.;What do you recommend?|ماذا تنصح؟;I'll have the chicken, please.|سآخذ الدجاج من فضلك.;Can we have the menu, please?|هل يمكن أن نحصل على قائمة الطعام؟;Is there a pharmacy near here?|هل توجد صيدلية قريبة من هنا؟;How much does this cost?|كم يكلف هذا؟;It's too expensive for me.|هذا غالٍ جداً بالنسبة لي.;Do you have a discount?|هل عندكم خصم؟;I'd like to return this.|أريد إرجاع هذا.;Where can I buy a SIM card?|أين أستطيع شراء شريحة اتصال؟;Could you take a photo of us?|هل يمكنك أن تلتقط لنا صورة؟;I'm here on vacation.|أنا هنا في إجازة.;I'm staying at a hotel in the city center.|أنا مقيم في فندق وسط المدينة.;What's the Wi-Fi password?|ما كلمة مرور الواي فاي؟;My phone battery is dead.|بطارية جوالي فارغة.;I've been waiting for twenty minutes.|أنتظر منذ عشرين دقيقة.;Turn left at the traffic lights.|انعطف يساراً عند إشارة المرور.;The bus station is on your right.|محطة الحافلات على يمينك.;I'm going to visit my grandparents tomorrow.|سأزور جدّي وجدتي غداً.;What do you do for a living?|ماذا تعمل؟;I work as an engineer.|أعمل مهندساً.;What are you doing this weekend?|ماذا ستفعل هذا الأسبوع؟;I usually wake up at six.|عادةً أستيقظ في السادسة.;Can I borrow your pen?|هل أستطيع استعارة قلمك؟");
+addP(2,"I couldn't agree more.|أتفق تماماً.;That's a valid point, but let me explain my side.|هذه نقطة وجيهة، لكن دعني أوضح وجهة نظري.;I'm in charge of the marketing team.|أنا مسؤول عن فريق التسويق.;We're aiming to increase sales by ten percent.|نهدف إلى زيادة المبيعات عشرة بالمئة.;Could we reschedule the meeting for next week?|هل يمكننا تأجيل الاجتماع إلى الأسبوع القادم؟;I'll keep you posted on any updates.|سأبقيك على اطلاع بأي مستجدات.;Please bear with me for a moment.|أرجو منك الصبر علي لحظة.;I'm not in a position to make that decision.|لست في موقع يسمح لي باتخاذ هذا القرار.;It's only a matter of time.|إنها مسألة وقت فقط.;Despite the difficulties, we managed to finish on time.|رغم الصعوبات، تمكنا من الانتهاء في الوقت المحدد.;Not only is it cheaper, but it's also faster.|ليس أرخص فحسب، بل أسرع أيضاً.;I wasn't aware of that.|لم أكن على علم بذلك.;Let's agree to disagree.|لنتفق على أن نختلف.;It slipped my mind.|لقد نسيت الأمر.;I'm completely swamped with work.|أنا غارق في العمل تماماً.;To be honest, I have mixed feelings about it.|بصراحة، لدي مشاعر متباينة تجاه الأمر.;Would you be open to a different approach?|هل أنت منفتح على أسلوب مختلف؟;Thank you for your prompt response.|شكراً على ردك السريع.;I apologize for any inconvenience this may have caused.|أعتذر عن أي إزعاج قد يكون سببه هذا.;Having considered all options, I'd go with the first one.|بعد دراسة كل الخيارات، سأختار الأول.;It goes without saying that quality comes first.|لا يخفى أن الجودة تأتي أولاً.");
+G.push(["المضارع التام (Present Perfect)","نستخدم have/has + التصريف الثالث للفعل عن تجربة، أو شيء بدأ في الماضي واستمر.",["I have lived here for five years.","She has finished her work.","Have you ever been to London?"]],["الجمل الشرطية","النوع الأول للمستقبل المحتمل: If + مضارع، will + فعل. النوع الثاني لشيء خيالي: If + ماضي، would + فعل.",["If it rains, I will stay home.","If I were rich, I would travel."]],["المبني للمجهول","نستخدمه عندما يهمنا الفعل أو المفعول أكثر من الفاعل: be + التصريف الثالث.",["The book was written in 1990.","English is spoken worldwide."]]);
+var GLV=[0,0,0,0,1,1,1,2,2,2];
+function addG(l,t,d,e){GLV[G.length]=l;G.push([t,d,e])}
+addG(1,"المضارع المستمر (Present Continuous)","نستخدم am/is/are + الفعل مع ing للحدث الذي يجري الآن.",["I am studying now.","She is cooking dinner.","Are they playing?"]);
+addG(1,"المستقبل: will و going to","will للقرارات اللحظية والتوقعات، و going to للخطط والنوايا.",["I will help you.","We are going to travel next week.","It will rain tomorrow."]);
+addG(1,"المقارنة والتفضيل","للصفات القصيرة نضيف er / est، وللصفات الطويلة نستخدم more / most. وهناك صفات شاذة.",["tall → taller → the tallest","beautiful → more beautiful","good → better → the best"]);
+addG(1,"حروف الجر: in / on / at","at للوقت المحدد والمكان الدقيق، on للأيام والأسطح، in للأشهر والسنوات والأماكن الكبيرة.",["at 5 o'clock","on Monday","in July","in Jeddah"]);
+addG(1,"أسئلة Wh","What للشيء، Where للمكان، When للوقت، Who للشخص، Why للسبب، How للكيفية.",["What is your name?","Where do you live?","Why are you late?","How do you go to work?"]);
+addG(1,"There is / There are","There is للمفرد، وThere are للجمع. للنفي نضيف not بعد is أو are.",["There is a book on the table.","There are two chairs.","There isn't any milk."]);
+addG(1,"some و any","some في الجمل المثبتة، وany في النفي والسؤال.",["I have some friends.","I don't have any money.","Do you have any questions?"]);
+addG(2,"الجمل الموصولة (who / which / that)","who للأشخاص، which للأشياء، that للاثنين، whose للملكية.",["The man who lives next door is a doctor.","The car that I bought is red.","She is the girl whose bag was stolen."]);
+addG(2,"الكلام المنقول (Reported Speech)","عند نقل كلام قيل في الماضي نرجع زمن الفعل خطوة للوراء.",["\"I am tired.\" → She said she was tired.","\"I will come.\" → He said he would come."]);
+addG(2,"الشرط من النوع الثالث","نستخدمه لشيء كان يمكن أن يحدث في الماضي لكنه لم يحدث: If + past perfect، would have + التصريف الثالث.",["If I had studied, I would have passed.","If she had left earlier, she wouldn't have missed the train."]);
+addG(2,"الأفعال الناقصة للاستنتاج","must للتأكد، might / may للاحتمال، can't لاستحالة الشيء. وshould have للوم على فعل لم يحدث.",["He must be at home.","She might be late.","He can't be serious.","You should have told me."]);
+addG(2,"التمني (wish)","wish + ماضي لتمني شيء غير حقيقي الآن. wish + past perfect للندم على الماضي.",["I wish I had more free time.","I wish I had studied harder."]);
+Q.push(["I ___ here since 2020.",["live","have lived","am living"],1],["If I ___ you, I would apologize.",["am","was","were"],2],["The letter ___ yesterday.",["was sent","sent","is sent"],0],["She has ___ finished her homework.",["already","yesterday","ago"],0],["If it rains, we ___ at home.",["would stay","will stay","stayed"],1]);
+var QL=[0,0,1,1,0,1,0,1,1,1,2,2,2,2,2];
+function addQ(l,a){a.forEach(function(q){QL[Q.length]=l;Q.push(q)})}
+addQ(1,[["I am ___ a book now.",["read","reading","reads"],1],["She is ___ than her sister.",["tall","taller","tallest"],1],["We ___ visit Paris next summer.",["are going to","did","have"],0],["The meeting is ___ Monday.",["in","on","at"],1],["There ___ two chairs in the room.",["is","are","be"],1],["Do you have ___ milk?",["some","any","a"],1],["___ is your birthday? — In May.",["Where","When","Who"],1],["This is the ___ film I have ever seen.",["good","better","best"],2]]);
+addQ(2,[["The man ___ lives next door is a doctor.",["who","which","whose"],0],["She said that she ___ tired.",["is","was","be"],1],["If I had studied, I ___ passed.",["would","would have","will"],1],["He must ___ at home; his car is outside.",["be","is","been"],0],["I wish I ___ more free time.",["have","had","has"],1],["You ___ have told me earlier!",["should","must","can"],0],["He asked me where I ___.",["live","lived","living"],1]]);
+var all=[];for(var c in V)V[c].forEach(function(w){all.push(w)});
+function lall(){var r=[];for(var c in V)if(LV[c]===lvl)r=r.concat(V[c]);return r}
+var $=function(i){return document.getElementById(i)};
+var learned={},best=0,runs=0,lvl=0,cat="تحيات";
+try{learned=JSON.parse(localStorage.getItem("le_l")||"{}");best=+localStorage.getItem("le_b")||0;runs=+localStorage.getItem("le_r")||0;lvl=+localStorage.getItem("le_v")||0}catch(e){}
+function save(){try{localStorage.setItem("le_l",JSON.stringify(learned));localStorage.setItem("le_b",best);localStorage.setItem("le_r",runs);localStorage.setItem("le_v",lvl)}catch(e){};cloud()}
+var VO=null,rate=.85;
+function sc(v){var n=v.name,x=0;if(/natural|neural|premium|enhanced/i.test(n))x+=5;if(/google|samantha|daniel|karen|aaron|aria|jenny|guy/i.test(n))x+=3;if(/en-US/i.test(v.lang))x+=2;if(v.localService===false)x+=1;return x}
+function pick(){try{var vs=speechSynthesis.getVoices().filter(function(v){return /^en/i.test(v.lang)}).sort(function(a,b){return sc(b)-sc(a)});VO=vs[0]||null}catch(e){}}
+function say(t){try{var u=new SpeechSynthesisUtterance(t);u.lang=VO?VO.lang:"en-US";if(VO)u.voice=VO;u.rate=rate;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function stats(){$("sLearned").textContent=Object.keys(learned).length;$("sTotal").textContent=all.length;$("sBest").textContent=best+"/10";$("sRuns").textContent=runs}
+var cur=all[0];
+function dword(){var a=lall();cur=a[Math.floor(Math.random()*a.length)];$("dw").textContent=cur[0];$("dwa").textContent=cur[1]}
+$("dwn").onclick=dword;$("dws").onclick=function(){say(cur[0])};
+// tabs
+document.querySelectorAll("#nav button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll("#nav button").forEach(function(x){x.setAttribute("aria-selected",x===b)});
+document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===b.dataset.t)})}});
+// vocab
+function drawCats(){if(LV[cat]!==lvl)cat=Object.keys(V).filter(function(k){return LV[k]===lvl})[0];var h="";for(var c in V)if(LV[c]===lvl)h+='<button class="'+(c===cat?"on":"")+'" data-c="'+c+'">'+c+'</button>';$("cats").innerHTML=h;
+$("cats").querySelectorAll("button").forEach(function(b){b.onclick=function(){cat=b.dataset.c;drawCats();drawGrid()}})}
+function drawGrid(){var g=$("vgrid");g.innerHTML="";V[cat].forEach(function(w){var d=document.createElement("div");
+var b=document.createElement("button");b.className="fc"+(learned[w[0]]?" known":"");b.innerHTML='<span class="en"></span><span class="ar"></span>';
+b.children[0].textContent=w[0];b.children[1].textContent=w[1];b.onclick=function(){say(w[0])};
+var k=document.createElement("button");k.className="small";k.style.marginTop="6px";k.style.width="100%";k.textContent=learned[w[0]]?"إلغاء الحفظ":"حفظتها";
+k.onclick=function(){if(learned[w[0]])delete learned[w[0]];else learned[w[0]]=1;save();stats();drawGrid()};
+d.appendChild(b);d.appendChild(k);g.appendChild(d)})}
+// phrases
+var IC=[[/way to the airport/,"✈️🧭"],[/appreciate/,"🙏📧"],[/looking forward/,"🤝✨"],[/i see your point/,"🤝⚖️"],[/get back to you/,"📞🔙"],[/easier said/,"💭🧗"],[/recommend/,"⭐🍽️"],[/bear with me/,"⏳🙏"],[/position to make/,"🙅‍♂️📋"],[/attached/,"📎📄"],[/success/,"🏆✅"],[/if it rains/,"🌧️🏠"],[/would travel/,"✈️🕰️"],[/was written/,"📖✍️"],[/had studied/,"📚🎓"],[/free time/,"🕰️💭"],[/no, thank you/,"❌🙂"],[/good morning/,"🌅☀️"],[/good evening/,"🌆"],[/good night|sleep well/,"🌙😴"],[/how are you/,"🙂💬"],[/i'm fine/,"😊👍"],[/nice to meet/,"🤝😊"],[/your name|my name/,"🪪🙋"],[/where are you from|i'm from/,"🌍📍"],[/speak english/,"🗣️🇬🇧"],[/how do you say|what does this mean/,"🗣️❓"],[/don't understand|aware of that/,"🤔❓"],[/repeat|slowly|slower/,"🔁🗣️🐢"],[/how much|cost|expensive|discount|price/,"💰🏷️"],[/bathroom/,"🚻"],[/coffee/,"☕"],[/thank you for your prompt/,"📧🙏"],[/thank you|you're welcome/,"🙏😊"],[/sorry|excuse me|apologize/,"🙇"],[/no problem/,"👌"],[/yes, please/,"✅🙂"],[/don't know/,"🤷"],[/hungry|menu|restaurant|chicken|table for/,"🍽️😋"],[/thirsty|some water/,"💧🥤"],[/i'm tired/,"😴"],[/i'm happy/,"😊🎉"],[/pizza/,"🍕❤️"],[/love my family|grandparents/,"👨‍👩‍👧‍👦❤️"],[/my friend/,"🧑‍🤝‍🧑"],[/old are you|years old/,"🎂🔢"],[/what time|o'clock|wake up/,"🕒⏰"],[/where is the school/,"🏫❓"],[/airport|flight/,"✈️🛫"],[/passport/,"🛂📕"],[/pharmacy/,"💊🏪"],[/allergic/,"🥜🤧"],[/doctor|dizzy/,"🩺🤒"],[/hotel|reservation|staying/,"🏨🛏️"],[/try this on|smaller size|return this/,"👕🛍️"],[/weather/,"⛅🌤️"],[/wi-fi/,"📶🔑"],[/battery|phone/,"📱🔋"],[/sim card/,"📱💳"],[/photo/,"📸🧑‍🤝‍🧑"],[/vacation/,"🏖️🌴"],[/traffic|turn left|bus station|way to the|how long/,"🧭🚏"],[/pay by card|bill/,"💳🧾"],[/borrow your pen/,"🖊️🤲"],[/weekend/,"🎉🗓️"],[/let's go/,"🏃‍♂️💨"],[/nice day/,"🌞🙂"],[/see you (later|tomorrow)/,"👋🙂"],[/visit/,"🚗👵"],[/engineer|work as|for a living/,"🧑‍🔧💼"],[/learning english/,"📚🇬🇧"],[/marketing|sales|in charge/,"📈👥"],[/meeting|reschedule/,"🗓️👥"],[/deadline|on time/,"⏰✅"],[/swamped/,"📚💻😵"],[/attached|hearing from|keep you posted|response/,"📧"],[/agree|disagree|point of view|valid point|concerned|mixed feelings|approach|pros and cons|had known|option/,"⚖️🤔"],[/difficult|cheaper|quality|matter of time|slipped/,"🎯⏳"],[/elaborate|detail|simple|depends|success|position|decision/,"💡🗣️"],[/help/,"🆘🤝"],[/waiting/,"⌛🧍"],[/window/,"🪟"],[/appreciate|wouldn't|would you|could you/,"🙏💬"]];
+function ico(t){t=t.toLowerCase();for(var i=0;i<IC.length;i++)if(IC[i][0].test(t))return IC[i][1];return"💬"}
+function drawP(){$("plist").innerHTML="";P.forEach(function(p,i){if(plv(i)!==lvl)return;var b=document.createElement("button");b.className="phr";b.innerHTML='<div><div class="en"></div><div class="ar"></div><div class="ill" aria-hidden="true"></div></div><span>🔊</span>';
+b.querySelector(".en").textContent=p[0];b.querySelector(".ar").textContent=p[1];b.querySelector(".ill").textContent=ico(p[0]);b.onclick=function(){say(p[0])};$("plist").appendChild(b)})}
+// grammar
+function drawG(){$("glist").innerHTML="";G.forEach(function(g,gi){if(GLV[gi]!==lvl)return;var d=document.createElement("details");var s=document.createElement("summary");s.textContent=g[0];d.appendChild(s);
+var p=document.createElement("p");p.textContent=g[1];d.appendChild(p);g[2].forEach(function(e){var x=document.createElement("div");x.className="ex";x.textContent=e;x.style.cursor="pointer";x.onclick=function(){say(e)};d.appendChild(x)});$("glist").appendChild(d)})}
+// quiz
+var qs=[],qi=0,score=0;
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5})}
+function startQuiz(){var words=shuffle(lall()).slice(0,6).map(function(w,wi){var wrong=shuffle(all.filter(function(x){return x[0]!==w[0]})).slice(0,3).map(function(x){return x[1]});
+var o=shuffle([w[1]].concat(wrong));return{t:wi%2?'استمع واختر المعنى الصحيح':'ما معنى <span class="en">'+w[0]+'</span> ؟',sp:w[0],o:o,a:o.indexOf(w[1])}});
+var gram=shuffle(Q.filter(function(q,i){return QL[i]===lvl})).slice(0,4).map(function(q){return{t:'اختر الإجابة الصحيحة: <span class="en">'+q[0]+'</span>',o:q[1],a:q[2],ltr:1}});
+qs=shuffle(words.concat(gram));qi=0;score=0;showQ()}
+function showQ(){var b=$("qbox");if(qi>=qs.length){runs++;if(score>best)best=score;save();stats();
+var msg=score>=8?"ممتاز! استمر على هذا المستوى.":score>=5?"جيد. راجع المفردات والقواعد وحاول مرة أخرى.":"ابدأ بقسم المفردات ثم أعد الاختبار.";
+b.innerHTML='<div class="q"><h3>نتيجتك: '+score+' من '+qs.length+'</h3><p>'+msg+'</p><button class="main" id="again">اختبار جديد</button></div>';$("again").onclick=startQuiz;return}
+var q=qs[qi];b.innerHTML='<div class="bar"><i style="width:'+(qi/qs.length*100)+'%"></i></div><div class="q"><h3>'+(qi+1)+'/'+qs.length+' — '+q.t+'</h3><div class="opts"></div></div>';
+if(q.sp){var sb=document.createElement("button");sb.className="small";sb.style.marginInlineStart="10px";sb.textContent="🔊 استمع";sb.onclick=function(){say(q.sp)};b.querySelector("h3").appendChild(sb);if(q.t.indexOf("استمع")===0)setTimeout(function(){say(q.sp)},300)}
+var o=b.querySelector(".opts");q.o.forEach(function(t,i){var x=document.createElement("button");x.textContent=t;if(q.ltr)x.style.direction="ltr";
+x.onclick=function(){var bs=o.children;for(var j=0;j<bs.length;j++){bs[j].disabled=true}
+bs[q.a].classList.add("ok");if(i===q.a)score++;else x.classList.add("bad");setTimeout(function(){qi++;showQ()},900)};o.appendChild(x)})}
+var DOC=null,t0=null;
+function cloud(){if(!DOC)return;clearTimeout(t0);t0=setTimeout(function(){try{DOC.set({learned:learned,best:best,runs:runs,lvl:lvl}).catch(function(){})}catch(e){}},600)}
+async function login(){var a=$("acct");
+try{var U=await claude.use("user"),DB=await claude.use("db");
+if(U&&DB){var me=await U.me();
+if(me&&me.id){DOC=DB.collection("data/users/"+me.id).doc("progress");
+var sn=await DOC.get();
+if(sn.exists){var d=sn.data()||{};learned=d.learned||{};best=d.best||0;runs=d.runs||0;if(typeof d.lvl==="number")lvl=d.lvl;setLvl(lvl);stats()}else{cloud()}
+a.textContent="مرحباً "+(me.name||"")+"، تقدمك يُحفظ في حسابك تلقائياً.";return}}}catch(e){}
+a.textContent="أنت تتعلم كضيف، ويُحفظ تقدمك على هذا الجهاز فقط. سجّل دخولك بحساب Claude لحفظه في حسابك."}
+function introQ(){$("qbox").innerHTML='<div class="q"><h3>جاهز لاختبار مستوى '+["المبتدئ","المتوسط","المتقدم"][lvl]+'؟</h3><p>10 أسئلة من المفردات والقواعد، وبعضها يعتمد على السماع.</p><button class="main" id="go">ابدأ الاختبار</button></div>';$("go").onclick=startQuiz}
+function setLvl(i){lvl=i;save();document.querySelectorAll("#lv button").forEach(function(b,j){b.className=j===i?"on":""});cat=null;drawCats();drawGrid();drawP();drawG();dword();introQ()}
+function initUI(){var l=$("lv");["مبتدئ","متوسط","متقدم"].forEach(function(n,i){var b=document.createElement("button");b.textContent=n;b.className=i===lvl?"on":"";b.onclick=function(){setLvl(i)};l.appendChild(b)});
+pick();try{speechSynthesis.onvoiceschanged=pick}catch(e){}
+$("rs").onchange=function(){rate=+this.value};
+$("vt").onclick=function(){say("Hello! How are you today?")}}
+introQ();drawCats();drawGrid();drawP();drawG();initUI();stats();dword();login();
+</script>
+</body>
+</html>
